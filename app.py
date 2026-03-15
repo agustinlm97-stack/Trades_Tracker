@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# Position Tracker - Futures con Apalancamiento
+# Position Tracker - Multi usuario por sesion
 # pip install streamlit requests
 # streamlit run app.py
 
@@ -27,6 +27,10 @@ div[data-testid="stNumberInput"] input {
 div[data-testid="stSelectbox"] > div {
     background:#0a1018 !important; color:#8ab4c8 !important; border:1px solid #0f2a3a !important;
 }
+div[data-testid="stTextInput"] input {
+    background:#0a1018 !important; color:#8ab4c8 !important;
+    border:1px solid #0f2a3a !important; font-family:monospace !important; font-size:1rem !important;
+}
 label[data-testid="stWidgetLabel"] p {
     font-size:0.55rem !important; letter-spacing:2px !important; color:#2a4a5a !important;
 }
@@ -36,20 +40,50 @@ label[data-testid="stWidgetLabel"] p {
     letter-spacing:2px; font-size:0.72rem;
 }
 .stButton button:hover { border-color:#00c8ff !important; color:#00c8ff !important; }
+
+/* LOGIN SCREEN */
+.login-wrap {
+    max-width: 420px;
+    margin: 80px auto 0;
+    background: #0a1018;
+    border: 1px solid #0f2a3a;
+    border-top: 3px solid #00c8ff;
+    padding: 40px 36px;
+}
+.login-title {
+    font-size: 1.4rem; letter-spacing: 6px; color: #00c8ff;
+    font-weight: 700; margin-bottom: 4px;
+}
+.login-sub {
+    font-size: 0.6rem; color: #2a4a5a; letter-spacing: 3px; margin-bottom: 28px;
+}
+.login-btn button {
+    background: #0a1018 !important; color: #00ff88 !important;
+    border: 1px solid #00ff88 !important; width: 100%;
+    font-size: 0.85rem !important; letter-spacing: 3px; padding: 10px;
+}
+.login-btn button:hover { background: #00ff8811 !important; }
+
+/* TOP BAR */
 .top-bar {
     background:#0a1018; border:1px solid #0f2a3a; border-top:3px solid #00c8ff;
-    padding:18px 28px; margin-bottom:18px;
-    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
+    padding:16px 24px; margin-bottom:16px;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
 }
-.top-title { font-size:0.58rem; color:#2a4a5a; letter-spacing:4px; margin-bottom:5px; }
-.top-total-pos { font-size:2.4rem; font-weight:700; color:#00ff88; letter-spacing:1px; }
-.top-total-neg { font-size:2.4rem; font-weight:700; color:#ff3366; letter-spacing:1px; }
-.top-total-neu { font-size:2.4rem; font-weight:700; color:#ffd700; letter-spacing:1px; }
-.top-stat-val-pos { font-size:1.2rem; font-weight:700; color:#00ff88; }
-.top-stat-val-neg { font-size:1.2rem; font-weight:700; color:#ff3366; }
-.top-stat-val-neu { font-size:1.2rem; color:#ffd700; }
-.top-stat-val-mut { font-size:1.2rem; color:#8ab4c8; }
-.top-divider { width:1px; height:50px; background:#0f2a3a; }
+.top-left { display:flex; align-items:center; gap:20px; }
+.top-user { font-size:0.7rem; color:#2a4a5a; letter-spacing:3px; }
+.top-user span { color:#00c8ff; }
+.top-title { font-size:0.52rem; color:#2a4a5a; letter-spacing:4px; margin-bottom:4px; }
+.top-total-pos { font-size:2rem; font-weight:700; color:#00ff88; letter-spacing:1px; }
+.top-total-neg { font-size:2rem; font-weight:700; color:#ff3366; letter-spacing:1px; }
+.top-total-neu { font-size:2rem; font-weight:700; color:#ffd700; letter-spacing:1px; }
+.top-stat-val-pos { font-size:1.1rem; font-weight:700; color:#00ff88; }
+.top-stat-val-neg { font-size:1.1rem; font-weight:700; color:#ff3366; }
+.top-stat-val-neu { font-size:1.1rem; color:#ffd700; }
+.top-stat-val-mut { font-size:1.1rem; color:#8ab4c8; }
+.top-divider { width:1px; height:44px; background:#0f2a3a; }
+
+/* CARDS */
 .pos-card { background:#0a1018; border:1px solid #0f2a3a; border-left:3px solid #2a4a5a; padding:16px 18px; }
 .pos-card.win { border-left-color:#00ff88; }
 .pos-card.los { border-left-color:#ff3366; }
@@ -71,7 +105,6 @@ label[data-testid="stWidgetLabel"] p {
 .d-val { font-size:0.82rem; color:#8ab4c8; }
 .d-val.green { color:#00ff88; } .d-val.red { color:#ff3366; } .d-val.gold { color:#ffd700; }
 .empty-card { background:#0a1018; border:1px solid #0f2a3a; border-left:3px solid #0f2a3a; padding:16px 18px; color:#2a4a5a; font-size:0.72rem; letter-spacing:2px; }
-.closed-box { background:#0a1018; border:1px solid #0f2a3a; border-top:2px solid #ffd700; padding:18px 22px; margin-top:18px; }
 .grand-bar {
     background:#0a1018; border:1px solid #00c8ff44; border-top:2px solid #00c8ff;
     padding:16px 22px; margin-top:12px;
@@ -89,22 +122,13 @@ label[data-testid="stWidgetLabel"] p {
 """
 st.markdown(CSS, unsafe_allow_html=True)
 
-# CoinGecko IDs for each symbol
 PAIRS = ["BTCUSDT","ETHUSDT","ADAUSDT","SOLUSDT","BNBUSDT","XRPUSDT","DOGEUSDT","PAXGUSDT","AVAXUSDT","DOTUSDT","LINKUSDT"]
 LEVERAGES = [1, 2, 3, 5, 10, 20, 25, 50, 75, 100, 125]
-
 COINGECKO_IDS = {
-    "BTCUSDT":  "bitcoin",
-    "ETHUSDT":  "ethereum",
-    "ADAUSDT":  "cardano",
-    "SOLUSDT":  "solana",
-    "BNBUSDT":  "binancecoin",
-    "XRPUSDT":  "ripple",
-    "DOGEUSDT": "dogecoin",
-    "PAXGUSDT": "pax-gold",
-    "AVAXUSDT": "avalanche-2",
-    "DOTUSDT":  "polkadot",
-    "LINKUSDT": "chainlink",
+    "BTCUSDT":"bitcoin","ETHUSDT":"ethereum","ADAUSDT":"cardano",
+    "SOLUSDT":"solana","BNBUSDT":"binancecoin","XRPUSDT":"ripple",
+    "DOGEUSDT":"dogecoin","PAXGUSDT":"pax-gold","AVAXUSDT":"avalanche-2",
+    "DOTUSDT":"polkadot","LINKUSDT":"chainlink",
 }
 
 def fmt_price(n):
@@ -118,49 +142,73 @@ def fmt_price(n):
 
 def fetch_prices(symbols):
     ids = [COINGECKO_IDS[s] for s in symbols if s in COINGECKO_IDS]
-    if not ids:
-        return {}
+    if not ids: return {}
     try:
-        url = "https://api.coingecko.com/api/v3/simple/price"
-        params = {"ids": ",".join(ids), "vs_currencies": "usd"}
-        r = requests.get(url, params=params, timeout=8)
+        r = requests.get("https://api.coingecko.com/api/v3/simple/price",
+            params={"ids": ",".join(ids), "vs_currencies": "usd"}, timeout=8)
         r.raise_for_status()
         data = r.json()
-        result = {}
-        for sym in symbols:
-            cg_id = COINGECKO_IDS.get(sym)
-            if cg_id and cg_id in data:
-                result[sym] = float(data[cg_id]["usd"])
-        return result
-    except Exception:
-        return {}
+        return {sym: float(data[COINGECKO_IDS[sym]]["usd"])
+                for sym in symbols if COINGECKO_IDS.get(sym) in data}
+    except Exception: return {}
 
-# --- Session state ---
-if "positions" not in st.session_state:
-    st.session_state.positions = [
-        {"pair":"ETHUSDT",  "side":"Long","entry":0.0,"qty":0.0,"lev":10},
-        {"pair":"ADAUSDT",  "side":"Long","entry":0.0,"qty":0.0,"lev":10},
-        {"pair":"PAXGUSDT", "side":"Long","entry":0.0,"qty":0.0,"lev":10},
-        {"pair":"BTCUSDT",  "side":"Long","entry":0.0,"qty":0.0,"lev":10},
-    ]
+# ── Session state ──────────────────────────────────────────────────────────────
+if "username"      not in st.session_state: st.session_state.username      = ""
+if "logged_in"     not in st.session_state: st.session_state.logged_in     = False
+if "positions"     not in st.session_state: st.session_state.positions     = []
 if "live"          not in st.session_state: st.session_state.live          = {}
 if "last_update"   not in st.session_state: st.session_state.last_update   = ""
 if "closed_trades" not in st.session_state: st.session_state.closed_trades = []
 if "fetch_error"   not in st.session_state: st.session_state.fetch_error   = False
 
-# --- Fetch all prices in ONE request ---
+# ══════════════════════════════════════════════════════════════════════════════
+# LOGIN SCREEN
+# ══════════════════════════════════════════════════════════════════════════════
+if not st.session_state.logged_in:
+    st.markdown("""
+<div class="login-wrap">
+  <div class="login-title">POSITION<span style='color:#00ff88'>TRACKER</span></div>
+  <div class="login-sub">FUTURES &nbsp;|&nbsp; MULTI USUARIO &nbsp;|&nbsp; LIVE PRICES</div>
+</div>""", unsafe_allow_html=True)
+
+    # center the input
+    _, mid, _ = st.columns([1, 2, 1])
+    with mid:
+        st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
+        name = st.text_input("TU NOMBRE", placeholder="ej: Agustin", key="name_input",
+                             label_visibility="visible")
+        st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+        enter = st.button("ENTRAR", use_container_width=True, key="login_btn")
+
+        if enter and name.strip():
+            st.session_state.username  = name.strip()
+            st.session_state.logged_in = True
+            st.session_state.positions = [
+                {"pair":"ETHUSDT",  "side":"Long","entry":0.0,"qty":0.0,"lev":10},
+                {"pair":"ADAUSDT",  "side":"Long","entry":0.0,"qty":0.0,"lev":10},
+                {"pair":"PAXGUSDT", "side":"Long","entry":0.0,"qty":0.0,"lev":10},
+                {"pair":"BTCUSDT",  "side":"Long","entry":0.0,"qty":0.0,"lev":10},
+            ]
+            st.rerun()
+        elif enter:
+            st.markdown("<div style='color:#ff3366;font-size:0.75rem;letter-spacing:2px'>Ingresa tu nombre para continuar</div>", unsafe_allow_html=True)
+    st.stop()
+
+# ══════════════════════════════════════════════════════════════════════════════
+# MAIN APP
+# ══════════════════════════════════════════════════════════════════════════════
+
+# Fetch prices
 tracked = list({p["pair"] for p in st.session_state.positions})
 prices  = fetch_prices(tracked)
-
 if prices:
     st.session_state.live.update(prices)
     st.session_state.fetch_error = False
 else:
     st.session_state.fetch_error = True
-
 st.session_state.last_update = datetime.now().strftime("%H:%M:%S")
 
-# --- Compute open P&L ---
+# Compute P&L
 total_open_pnl    = 0.0
 total_open_margin = 0.0
 any_active        = False
@@ -178,59 +226,64 @@ for pos in st.session_state.positions:
         total_open_pnl    += pnl_usd
         total_open_margin += margin
         any_active = True
-        pos_data.append({**pos, "current":current, "notional":notional,
-                         "margin":margin, "pnl_usd":pnl_usd,
-                         "pnl_pct_m":pnl_pct_m, "pnl_pct_n":pnl_pct_n, "active":True})
+        pos_data.append({**pos,"current":current,"notional":notional,"margin":margin,
+                         "pnl_usd":pnl_usd,"pnl_pct_m":pnl_pct_m,"pnl_pct_n":pnl_pct_n,"active":True})
     else:
-        pos_data.append({**pos, "current":current, "active":False})
+        pos_data.append({**pos,"current":current,"active":False})
 
 closed_total = sum(t["pnl"] for t in st.session_state.closed_trades)
 grand_total  = total_open_pnl + closed_total
 
-# ========== TOP SUMMARY BAR ==========
-if any_active:
-    sign_o  = "+" if total_open_pnl >= 0 else ""
-    sign_g  = "+" if grand_total    >= 0 else ""
-    sign_c  = "+" if closed_total   >= 0 else ""
-    o_cls   = "top-total-pos" if total_open_pnl > 0 else ("top-total-neg" if total_open_pnl < 0 else "top-total-neu")
-    g_cls   = "top-stat-val-pos" if grand_total > 0 else ("top-stat-val-neg" if grand_total < 0 else "top-stat-val-neu")
-    c_cls   = "top-stat-val-pos" if closed_total > 0 else ("top-stat-val-neg" if closed_total < 0 else "top-stat-val-mut")
-    open_pct= (total_open_pnl / total_open_margin * 100) if total_open_margin > 0 else 0
-    pct_cls = "top-stat-val-pos" if open_pct > 0 else ("top-stat-val-neg" if open_pct < 0 else "top-stat-val-neu")
+# ── TOP BAR ───────────────────────────────────────────────────────────────────
+sign_o  = "+" if total_open_pnl >= 0 else ""
+sign_g  = "+" if grand_total    >= 0 else ""
+sign_c  = "+" if closed_total   >= 0 else ""
+o_cls   = "top-total-pos" if total_open_pnl > 0 else ("top-total-neg" if total_open_pnl < 0 else "top-total-neu")
+g_cls   = "top-stat-val-pos" if grand_total > 0 else ("top-stat-val-neg" if grand_total < 0 else "top-stat-val-neu")
+c_cls   = "top-stat-val-pos" if closed_total > 0 else ("top-stat-val-neg" if closed_total < 0 else "top-stat-val-mut")
+open_pct= (total_open_pnl / total_open_margin * 100) if total_open_margin > 0 else 0
+pct_cls = "top-stat-val-pos" if open_pct > 0 else ("top-stat-val-neg" if open_pct < 0 else "top-stat-val-neu")
+
+tb_left, tb_right = st.columns([5, 1])
+with tb_left:
     st.markdown(f"""
 <div class="top-bar">
   <div>
-    <div class="top-title">P&amp;L POSICIONES ABIERTAS</div>
-    <div class="{o_cls}">{sign_o}${total_open_pnl:,.2f} <span style="font-size:1rem">USDT</span></div>
+    <div class="top-title">P&amp;L ABIERTOS</div>
+    <div class="{o_cls}">{sign_o}${total_open_pnl:,.2f} <span style="font-size:0.9rem">USDT</span></div>
   </div>
   <div class="top-divider"></div>
   <div>
-    <div class="top-title">RETORNO SOBRE MARGEN</div>
+    <div class="top-title">RETORNO MARGEN</div>
     <div class="{pct_cls}">{sign_o}{open_pct:.2f}%</div>
   </div>
   <div class="top-divider"></div>
   <div>
-    <div class="top-title">MARGEN TOTAL USADO</div>
+    <div class="top-title">MARGEN USADO</div>
     <div class="top-stat-val-mut">${total_open_margin:,.2f}</div>
   </div>
   <div class="top-divider"></div>
   <div>
-    <div class="top-title">CERRADOS ACUMULADO</div>
+    <div class="top-title">CERRADOS</div>
     <div class="{c_cls}">{sign_c}${closed_total:,.2f}</div>
   </div>
   <div class="top-divider"></div>
   <div>
-    <div class="top-title">GANANCIA TOTAL</div>
+    <div class="top-title">TOTAL HISTORICO</div>
     <div class="{g_cls}">{sign_g}${grand_total:,.2f}</div>
   </div>
 </div>""", unsafe_allow_html=True)
-else:
-    st.markdown(
-        "<h2 style='color:#00c8ff;letter-spacing:6px;font-family:monospace;margin-bottom:18px'>"
-        "POSITION <span style='color:#00ff88'>TRACKER</span></h2>",
-        unsafe_allow_html=True)
 
-# ========== POSITIONS 2x2 GRID ==========
+with tb_right:
+    st.markdown(f"<div style='padding-top:8px;font-size:0.7rem;color:#2a4a5a;letter-spacing:2px'>USUARIO</div>"
+                f"<div style='font-size:1rem;color:#00c8ff;letter-spacing:3px'>{st.session_state.username.upper()}</div>",
+                unsafe_allow_html=True)
+    if st.button("SALIR", use_container_width=True):
+        for key in ["username","logged_in","positions","live","last_update","closed_trades","fetch_error"]:
+            if key in st.session_state: del st.session_state[key]
+        st.rerun()
+
+# ── POSITIONS 2x2 ─────────────────────────────────────────────────────────────
 st.markdown("<div class='section-line'>POSICIONES ABIERTAS</div>", unsafe_allow_html=True)
 
 if st.button("+ NUEVA POSICION"):
@@ -242,8 +295,7 @@ for row in range(0, n, 2):
     col_left, col_right = st.columns(2, gap="medium")
     for col_idx, col in enumerate([col_left, col_right]):
         i = row + col_idx
-        if i >= n:
-            break
+        if i >= n: break
         pos = st.session_state.positions[i]
         pd  = pos_data[i]
         with col:
@@ -276,12 +328,12 @@ for row in range(0, n, 2):
             st.session_state.positions[i] = {"pair":pair,"side":side,"entry":entry,"qty":qty,"lev":lev}
 
             if pd["active"]:
-                pnl_usd  = pd["pnl_usd"]
-                pnl_pct_m= pd["pnl_pct_m"]
-                pnl_pct_n= pd["pnl_pct_n"]
-                current  = pd["current"]
-                margin   = pd["margin"]
-                notional = pd["notional"]
+                pnl_usd   = pd["pnl_usd"]
+                pnl_pct_m = pd["pnl_pct_m"]
+                pnl_pct_n = pd["pnl_pct_n"]
+                current   = pd["current"]
+                margin    = pd["margin"]
+                notional  = pd["notional"]
                 sign   = "+" if pnl_usd >= 0 else ""
                 status = "win" if pnl_usd > 0 else ("los" if pnl_usd < 0 else "")
                 u_cls  = "pnl-main-pos" if pnl_usd > 0 else ("pnl-main-neg" if pnl_usd < 0 else "pnl-main-neu")
@@ -315,17 +367,14 @@ for row in range(0, n, 2):
   Ingresa precio de entrada y cantidad{warn}
 </div>""", unsafe_allow_html=True)
 
-# ========== CLOSED TRADES ==========
+# ── CLOSED TRADES ─────────────────────────────────────────────────────────────
 st.markdown("<div class='section-line'>TRADES CERRADOS</div>", unsafe_allow_html=True)
 
 with st.expander("+ AGREGAR TRADE CERRADO", expanded=len(st.session_state.closed_trades) == 0):
     cc1, cc2, cc3, cc4 = st.columns([2, 2, 2, 1])
-    with cc1:
-        c_label = st.text_input("DESCRIPCION", placeholder="ej: BTC Long 10x", key="c_label")
-    with cc2:
-        c_pnl   = st.number_input("P&L REALIZADO (USDT)", value=0.0, format="%.2f", step=0.01, key="c_pnl")
-    with cc3:
-        c_date  = st.text_input("FECHA", placeholder="ej: 15/03/2026", key="c_date")
+    with cc1: c_label = st.text_input("DESCRIPCION", placeholder="ej: BTC Long 10x", key="c_label")
+    with cc2: c_pnl   = st.number_input("P&L REALIZADO (USDT)", value=0.0, format="%.2f", step=0.01, key="c_pnl")
+    with cc3: c_date  = st.text_input("FECHA", placeholder="ej: 15/03/2026", key="c_date")
     with cc4:
         st.markdown("<div style='height:26px'></div>", unsafe_allow_html=True)
         if st.button("AGREGAR", use_container_width=True, key="add_closed"):
@@ -361,17 +410,16 @@ if st.session_state.closed_trades:
   <div><div class="gb-label">GANANCIA TOTAL HISTORICA</div><div class="{g_cls}">{sign_g}${grand_total:,.2f}</div></div>
 </div>""", unsafe_allow_html=True)
 
-# --- Footer ---
+# ── FOOTER ────────────────────────────────────────────────────────────────────
 st.markdown("---")
-cs, cr = st.columns([3,1])
+cs, cr = st.columns([3, 1])
 with cs:
     if st.session_state.fetch_error:
         st.markdown("<span class='status-err'>ERROR obteniendo precios - reintentando...</span>", unsafe_allow_html=True)
     else:
         st.markdown(f"<span class='status-ok'>LIVE - {st.session_state.last_update} - CoinGecko</span>", unsafe_allow_html=True)
 with cr:
-    ref = st.selectbox("Refresh", ["30s","60s","2m"], label_visibility="collapsed")
-
+    ref  = st.selectbox("Refresh", ["30s","60s","2m"], label_visibility="collapsed")
 secs = {"30s":30,"60s":60,"2m":120}[ref]
 time.sleep(secs)
 st.rerun()
