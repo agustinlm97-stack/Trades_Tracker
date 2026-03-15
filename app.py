@@ -13,9 +13,7 @@ st.set_page_config(page_title="Position Tracker", page_icon=":bar_chart:", layou
 CSS = """
 <style>
 html, body, [class*="css"] {
-    background-color: #050a0e !important;
-    color: #8ab4c8;
-    font-family: monospace;
+    background-color: #050a0e !important; color: #8ab4c8; font-family: monospace;
 }
 .stApp { background-color: #050a0e; }
 #MainMenu, footer, header { visibility: hidden; }
@@ -40,95 +38,109 @@ label[data-testid="stWidgetLabel"] p {
     letter-spacing:2px; font-size:0.72rem;
 }
 .stButton button:hover { border-color:#00c8ff !important; color:#00c8ff !important; }
-
-/* LOGIN SCREEN */
 .login-wrap {
-    max-width: 420px;
-    margin: 80px auto 0;
-    background: #0a1018;
-    border: 1px solid #0f2a3a;
-    border-top: 3px solid #00c8ff;
-    padding: 40px 36px;
+    max-width:420px; margin:80px auto 0; background:#0a1018;
+    border:1px solid #0f2a3a; border-top:3px solid #00c8ff; padding:40px 36px;
 }
-.login-title {
-    font-size: 1.4rem; letter-spacing: 6px; color: #00c8ff;
-    font-weight: 700; margin-bottom: 4px;
-}
-.login-sub {
-    font-size: 0.6rem; color: #2a4a5a; letter-spacing: 3px; margin-bottom: 28px;
-}
-.login-btn button {
-    background: #0a1018 !important; color: #00ff88 !important;
-    border: 1px solid #00ff88 !important; width: 100%;
-    font-size: 0.85rem !important; letter-spacing: 3px; padding: 10px;
-}
-.login-btn button:hover { background: #00ff8811 !important; }
-
-/* TOP BAR */
+.login-title { font-size:1.4rem; letter-spacing:6px; color:#00c8ff; font-weight:700; margin-bottom:4px; }
+.login-sub   { font-size:0.6rem; color:#2a4a5a; letter-spacing:3px; margin-bottom:28px; }
 .top-bar {
     background:#0a1018; border:1px solid #0f2a3a; border-top:3px solid #00c8ff;
     padding:16px 24px; margin-bottom:16px;
     display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
 }
-.top-left { display:flex; align-items:center; gap:20px; }
-.top-user { font-size:0.7rem; color:#2a4a5a; letter-spacing:3px; }
-.top-user span { color:#00c8ff; }
-.top-title { font-size:0.52rem; color:#2a4a5a; letter-spacing:4px; margin-bottom:4px; }
-.top-total-pos { font-size:2rem; font-weight:700; color:#00ff88; letter-spacing:1px; }
-.top-total-neg { font-size:2rem; font-weight:700; color:#ff3366; letter-spacing:1px; }
-.top-total-neu { font-size:2rem; font-weight:700; color:#ffd700; letter-spacing:1px; }
+.top-title   { font-size:0.52rem; color:#2a4a5a; letter-spacing:4px; margin-bottom:4px; }
+.top-total-pos { font-size:2rem; font-weight:700; color:#00ff88; }
+.top-total-neg { font-size:2rem; font-weight:700; color:#ff3366; }
+.top-total-neu { font-size:2rem; font-weight:700; color:#ffd700; }
 .top-stat-val-pos { font-size:1.1rem; font-weight:700; color:#00ff88; }
 .top-stat-val-neg { font-size:1.1rem; font-weight:700; color:#ff3366; }
 .top-stat-val-neu { font-size:1.1rem; color:#ffd700; }
 .top-stat-val-mut { font-size:1.1rem; color:#8ab4c8; }
 .top-divider { width:1px; height:44px; background:#0f2a3a; }
-
-/* CARDS */
 .pos-card { background:#0a1018; border:1px solid #0f2a3a; border-left:3px solid #2a4a5a; padding:16px 18px; }
 .pos-card.win { border-left-color:#00ff88; }
 .pos-card.los { border-left-color:#ff3366; }
-.pos-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-.pos-name { font-size:0.95rem; letter-spacing:3px; color:#8ab4c8; }
-.badges { display:flex; gap:5px; }
+.pos-header  { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.pos-name    { font-size:0.95rem; letter-spacing:3px; color:#8ab4c8; }
+.badges      { display:flex; gap:5px; }
 .b-long  { font-size:0.55rem; color:#00ff88; border:1px solid #00ff88; padding:2px 7px; letter-spacing:2px; }
 .b-short { font-size:0.55rem; color:#ff3366; border:1px solid #ff3366; padding:2px 7px; letter-spacing:2px; }
 .b-lev   { font-size:0.55rem; color:#ffd700; border:1px solid #ffd700; padding:2px 7px; letter-spacing:2px; }
-.pnl-main-pos { font-size:1.8rem; font-weight:700; color:#00ff88; letter-spacing:1px; line-height:1; }
-.pnl-main-neg { font-size:1.8rem; font-weight:700; color:#ff3366; letter-spacing:1px; line-height:1; }
-.pnl-main-neu { font-size:1.8rem; font-weight:700; color:#2a4a5a; letter-spacing:1px; line-height:1; }
-.pnl-pct-pos { font-size:0.95rem; color:#00ff88; }
-.pnl-pct-neg { font-size:0.95rem; color:#ff3366; }
-.pnl-pct-neu { font-size:0.95rem; color:#2a4a5a; }
-.pnl-sub { font-size:0.52rem; color:#2a4a5a; letter-spacing:2px; margin-top:2px; margin-bottom:10px; }
+.pnl-main-pos { font-size:1.8rem; font-weight:700; color:#00ff88; line-height:1; }
+.pnl-main-neg { font-size:1.8rem; font-weight:700; color:#ff3366; line-height:1; }
+.pnl-main-neu { font-size:1.8rem; font-weight:700; color:#2a4a5a; line-height:1; }
+.pnl-pct-pos  { font-size:0.95rem; color:#00ff88; }
+.pnl-pct-neg  { font-size:0.95rem; color:#ff3366; }
+.pnl-pct-neu  { font-size:0.95rem; color:#2a4a5a; }
+.pnl-sub  { font-size:0.52rem; color:#2a4a5a; letter-spacing:2px; margin-top:2px; margin-bottom:10px; }
 .detail-row { display:flex; gap:16px; padding-top:10px; border-top:1px solid #0f2a3a; flex-wrap:wrap; }
 .d-item label { display:block; font-size:0.5rem; color:#2a4a5a; letter-spacing:2px; margin-bottom:2px; }
-.d-val { font-size:0.82rem; color:#8ab4c8; }
-.d-val.green { color:#00ff88; } .d-val.red { color:#ff3366; } .d-val.gold { color:#ffd700; }
+.d-val        { font-size:0.82rem; color:#8ab4c8; }
+.d-val.green  { color:#00ff88; } .d-val.red { color:#ff3366; } .d-val.gold { color:#ffd700; }
 .empty-card { background:#0a1018; border:1px solid #0f2a3a; border-left:3px solid #0f2a3a; padding:16px 18px; color:#2a4a5a; font-size:0.72rem; letter-spacing:2px; }
 .grand-bar {
     background:#0a1018; border:1px solid #00c8ff44; border-top:2px solid #00c8ff;
-    padding:16px 22px; margin-top:12px;
-    display:flex; gap:40px; flex-wrap:wrap; align-items:center;
+    padding:16px 22px; margin-top:12px; display:flex; gap:40px; flex-wrap:wrap; align-items:center;
 }
-.gb-label { font-size:0.54rem; color:#2a4a5a; letter-spacing:3px; margin-bottom:4px; }
+.gb-label   { font-size:0.54rem; color:#2a4a5a; letter-spacing:3px; margin-bottom:4px; }
 .gb-val-pos { font-size:1.5rem; font-weight:700; color:#00ff88; }
 .gb-val-neg { font-size:1.5rem; font-weight:700; color:#ff3366; }
 .gb-val-neu { font-size:1.5rem; font-weight:700; color:#00c8ff; }
-.gb-val-mut { font-size:1.1rem; color:#8ab4c8; }
 .section-line { font-size:0.54rem; color:#2a4a5a; letter-spacing:4px; border-bottom:1px solid #0f2a3a; padding-bottom:6px; margin:16px 0 12px; }
 .status-ok  { color:#00ff88; font-size:0.62rem; letter-spacing:2px; }
 .status-err { color:#ff3366; font-size:0.62rem; letter-spacing:2px; }
+.source-tag { color:#2a4a5a; font-size:0.6rem; letter-spacing:2px; margin-left:10px; }
 </style>
 """
 st.markdown(CSS, unsafe_allow_html=True)
 
-PAIRS = ["BTCUSDT","ETHUSDT","ADAUSDT","SOLUSDT","BNBUSDT","XRPUSDT","DOGEUSDT","PAXGUSDT","AVAXUSDT","DOTUSDT","LINKUSDT"]
+PAIRS     = ["BTCUSDT","ETHUSDT","ADAUSDT","SOLUSDT","BNBUSDT","XRPUSDT","DOGEUSDT","PAXGUSDT","AVAXUSDT","DOTUSDT","LINKUSDT"]
 LEVERAGES = [1, 2, 3, 5, 10, 20, 25, 50, 75, 100, 125]
-COINGECKO_IDS = {
-    "BTCUSDT":"bitcoin","ETHUSDT":"ethereum","ADAUSDT":"cardano",
-    "SOLUSDT":"solana","BNBUSDT":"binancecoin","XRPUSDT":"ripple",
-    "DOGEUSDT":"dogecoin","PAXGUSDT":"pax-gold","AVAXUSDT":"avalanche-2",
-    "DOTUSDT":"polkadot","LINKUSDT":"chainlink",
+
+# Kraken pairs map
+KRAKEN_MAP = {
+    "BTCUSDT":  "XBTUSD",
+    "ETHUSDT":  "ETHUSD",
+    "ADAUSDT":  "ADAUSD",
+    "SOLUSDT":  "SOLUSD",
+    "BNBUSDT":  "BNBUSD",
+    "XRPUSDT":  "XRPUSD",
+    "DOGEUSDT": "DOGEUSD",
+    "PAXGUSDT": "PAXGUSD",
+    "AVAXUSDT": "AVAXUSD",
+    "DOTUSDT":  "DOTUSD",
+    "LINKUSDT": "LINKUSD",
+}
+
+# Coinpaprika IDs
+COINPAPRIKA_MAP = {
+    "BTCUSDT":  "btc-bitcoin",
+    "ETHUSDT":  "eth-ethereum",
+    "ADAUSDT":  "ada-cardano",
+    "SOLUSDT":  "sol-solana",
+    "BNBUSDT":  "bnb-binance-coin",
+    "XRPUSDT":  "xrp-xrp",
+    "DOGEUSDT": "doge-dogecoin",
+    "PAXGUSDT": "paxg-pax-gold",
+    "AVAXUSDT": "avax-avalanche",
+    "DOTUSDT":  "dot-polkadot",
+    "LINKUSDT": "link-chainlink",
+}
+
+# CoinGecko IDs
+COINGECKO_MAP = {
+    "BTCUSDT":  "bitcoin",
+    "ETHUSDT":  "ethereum",
+    "ADAUSDT":  "cardano",
+    "SOLUSDT":  "solana",
+    "BNBUSDT":  "binancecoin",
+    "XRPUSDT":  "ripple",
+    "DOGEUSDT": "dogecoin",
+    "PAXGUSDT": "pax-gold",
+    "AVAXUSDT": "avalanche-2",
+    "DOTUSDT":  "polkadot",
+    "LINKUSDT": "chainlink",
 }
 
 def fmt_price(n):
@@ -140,29 +152,82 @@ def fmt_price(n):
         return f"{v:.6f}"
     except Exception: return "-"
 
-def fetch_prices(symbols):
-    ids = [COINGECKO_IDS[s] for s in symbols if s in COINGECKO_IDS]
-    if not ids: return {}
+def fetch_kraken(symbols):
+    pairs = [KRAKEN_MAP[s] for s in symbols if s in KRAKEN_MAP]
+    if not pairs: return {}, False
+    try:
+        r = requests.get("https://api.kraken.com/0/public/Ticker",
+            params={"pair": ",".join(pairs)}, timeout=8)
+        r.raise_for_status()
+        data = r.json()
+        if data.get("error"): return {}, False
+        result = {}
+        for sym in symbols:
+            k = KRAKEN_MAP.get(sym)
+            if k and k in data.get("result", {}):
+                result[sym] = float(data["result"][k]["c"][0])
+        return result, True
+    except Exception:
+        return {}, False
+
+def fetch_coingecko(symbols):
+    ids = [COINGECKO_MAP[s] for s in symbols if s in COINGECKO_MAP]
+    if not ids: return {}, False
     try:
         r = requests.get("https://api.coingecko.com/api/v3/simple/price",
             params={"ids": ",".join(ids), "vs_currencies": "usd"}, timeout=8)
         r.raise_for_status()
         data = r.json()
-        return {sym: float(data[COINGECKO_IDS[sym]]["usd"])
-                for sym in symbols if COINGECKO_IDS.get(sym) in data}
-    except Exception: return {}
+        result = {}
+        for sym in symbols:
+            cg = COINGECKO_MAP.get(sym)
+            if cg and cg in data:
+                result[sym] = float(data[cg]["usd"])
+        return result, True
+    except Exception:
+        return {}, False
+
+def fetch_coinpaprika(symbols):
+    result = {}
+    try:
+        for sym in symbols:
+            cp = COINPAPRIKA_MAP.get(sym)
+            if not cp: continue
+            r = requests.get(f"https://api.coinpaprika.com/v1/tickers/{cp}",
+                params={"quotes": "USD"}, timeout=6)
+            r.raise_for_status()
+            result[sym] = float(r.json()["quotes"]["USD"]["price"])
+        return result, True
+    except Exception:
+        return result, len(result) > 0
+
+def fetch_all_prices(symbols):
+    # 1. Try Kraken
+    prices, ok = fetch_kraken(symbols)
+    if ok and len(prices) == len(symbols):
+        return prices, "Kraken"
+    # 2. Try CoinGecko
+    prices2, ok2 = fetch_coingecko(symbols)
+    if ok2 and len(prices2) == len(symbols):
+        return prices2, "CoinGecko"
+    # 3. Merge what we have, fill missing with Coinpaprika
+    merged = {**prices, **prices2}
+    missing = [s for s in symbols if s not in merged]
+    if missing:
+        prices3, _ = fetch_coinpaprika(missing)
+        merged.update(prices3)
+    source = "Multi-source" if len(merged) == len(symbols) else "Parcial"
+    return merged, source
 
 # ── Session state ──────────────────────────────────────────────────────────────
-if "username"      not in st.session_state: st.session_state.username      = ""
-if "logged_in"     not in st.session_state: st.session_state.logged_in     = False
-if "positions"     not in st.session_state: st.session_state.positions     = []
-if "live"          not in st.session_state: st.session_state.live          = {}
-if "last_update"   not in st.session_state: st.session_state.last_update   = ""
-if "closed_trades" not in st.session_state: st.session_state.closed_trades = []
-if "fetch_error"   not in st.session_state: st.session_state.fetch_error   = False
+for k, v in [("username",""),("logged_in",False),("positions",[]),
+             ("live",{}),("last_update",""),("closed_trades",[]),
+             ("fetch_error",False),("price_source","")]:
+    if k not in st.session_state:
+        st.session_state[k] = v
 
 # ══════════════════════════════════════════════════════════════════════════════
-# LOGIN SCREEN
+# LOGIN
 # ══════════════════════════════════════════════════════════════════════════════
 if not st.session_state.logged_in:
     st.markdown("""
@@ -170,16 +235,12 @@ if not st.session_state.logged_in:
   <div class="login-title">POSITION<span style='color:#00ff88'>TRACKER</span></div>
   <div class="login-sub">FUTURES &nbsp;|&nbsp; MULTI USUARIO &nbsp;|&nbsp; LIVE PRICES</div>
 </div>""", unsafe_allow_html=True)
-
-    # center the input
     _, mid, _ = st.columns([1, 2, 1])
     with mid:
         st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
-        name = st.text_input("TU NOMBRE", placeholder="ej: Agustin", key="name_input",
-                             label_visibility="visible")
+        name  = st.text_input("TU NOMBRE", placeholder="ej: Agustin", key="name_input")
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
         enter = st.button("ENTRAR", use_container_width=True, key="login_btn")
-
         if enter and name.strip():
             st.session_state.username  = name.strip()
             st.session_state.logged_in = True
@@ -191,7 +252,7 @@ if not st.session_state.logged_in:
             ]
             st.rerun()
         elif enter:
-            st.markdown("<div style='color:#ff3366;font-size:0.75rem;letter-spacing:2px'>Ingresa tu nombre para continuar</div>", unsafe_allow_html=True)
+            st.markdown("<div style='color:#ff3366;font-size:0.75rem;letter-spacing:2px'>Ingresa tu nombre</div>", unsafe_allow_html=True)
     st.stop()
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -200,10 +261,11 @@ if not st.session_state.logged_in:
 
 # Fetch prices
 tracked = list({p["pair"] for p in st.session_state.positions})
-prices  = fetch_prices(tracked)
+prices, source = fetch_all_prices(tracked)
 if prices:
     st.session_state.live.update(prices)
-    st.session_state.fetch_error = False
+    st.session_state.fetch_error  = False
+    st.session_state.price_source = source
 else:
     st.session_state.fetch_error = True
 st.session_state.last_update = datetime.now().strftime("%H:%M:%S")
@@ -275,11 +337,12 @@ with tb_left:
 </div>""", unsafe_allow_html=True)
 
 with tb_right:
-    st.markdown(f"<div style='padding-top:8px;font-size:0.7rem;color:#2a4a5a;letter-spacing:2px'>USUARIO</div>"
-                f"<div style='font-size:1rem;color:#00c8ff;letter-spacing:3px'>{st.session_state.username.upper()}</div>",
-                unsafe_allow_html=True)
+    st.markdown(
+        f"<div style='padding-top:8px;font-size:0.7rem;color:#2a4a5a;letter-spacing:2px'>USUARIO</div>"
+        f"<div style='font-size:1rem;color:#00c8ff;letter-spacing:3px'>{st.session_state.username.upper()}</div>",
+        unsafe_allow_html=True)
     if st.button("SALIR", use_container_width=True):
-        for key in ["username","logged_in","positions","live","last_update","closed_trades","fetch_error"]:
+        for key in ["username","logged_in","positions","live","last_update","closed_trades","fetch_error","price_source"]:
             if key in st.session_state: del st.session_state[key]
         st.rerun()
 
@@ -357,7 +420,7 @@ for row in range(0, n, 2):
 </div>""", unsafe_allow_html=True)
             else:
                 s_cls = "b-long" if side=="Long" else "b-short"
-                warn  = " - sin precio" if pd.get("current") is None else ""
+                warn  = " - cargando precio..." if pd.get("current") is None else ""
                 st.markdown(f"""
 <div class="empty-card">
   <div style="display:flex;justify-content:space-between;margin-bottom:8px">
@@ -369,7 +432,6 @@ for row in range(0, n, 2):
 
 # ── CLOSED TRADES ─────────────────────────────────────────────────────────────
 st.markdown("<div class='section-line'>TRADES CERRADOS</div>", unsafe_allow_html=True)
-
 with st.expander("+ AGREGAR TRADE CERRADO", expanded=len(st.session_state.closed_trades) == 0):
     cc1, cc2, cc3, cc4 = st.columns([2, 2, 2, 1])
     with cc1: c_label = st.text_input("DESCRIPCION", placeholder="ej: BTC Long 10x", key="c_label")
@@ -417,7 +479,9 @@ with cs:
     if st.session_state.fetch_error:
         st.markdown("<span class='status-err'>ERROR obteniendo precios - reintentando...</span>", unsafe_allow_html=True)
     else:
-        st.markdown(f"<span class='status-ok'>LIVE - {st.session_state.last_update} - CoinGecko</span>", unsafe_allow_html=True)
+        src = st.session_state.price_source
+        st.markdown(f"<span class='status-ok'>LIVE - {st.session_state.last_update}</span>"
+                    f"<span class='source-tag'>via {src}</span>", unsafe_allow_html=True)
 with cr:
     ref  = st.selectbox("Refresh", ["30s","60s","2m"], label_visibility="collapsed")
 secs = {"30s":30,"60s":60,"2m":120}[ref]
